@@ -81,7 +81,6 @@
     }
 
     /* NAV */
-
     nav {
       position: sticky;
       top: 0;
@@ -141,21 +140,18 @@
     padding: 80px 50px;
   }
 
-  /* NEW: The absolute containment box for the hero pattern */
   .articles-hero-wrapper {
     position: relative;
     width: 100%;
     overflow: hidden;
   }
 
-  /* FIXED: Turned to position absolute so inset: 0 fills the parent wrapper */
   .article__backing {
     position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;
     
-    /* Using the exact crisp 1px design lines from your screenshot */
     background-image: repeating-linear-gradient(
       -45deg,
       rgba(0, 0, 0, 0.04),
@@ -165,7 +161,6 @@
     );
   }
 
-  /* SEARCH & FILTER HEADER */
   .articles-header {
     display: flex;
     flex-direction: column;
@@ -175,7 +170,6 @@
     position: relative; 
   }
 
-/* Fixed selector typo (added 's') */
 .articles-header::after {
   content: '';
   position: absolute;
@@ -227,7 +221,7 @@
     .article-row {
       display: grid;
       grid-template-columns: 150px 1fr 120px;
-      align-items: flex-start; /* Changed from center to top-align all text elements */
+      align-items: flex-start;
       padding: 32px 0;
       border-bottom: 1px solid rgba(0,0,0,0.08);
       text-decoration: none;
@@ -267,7 +261,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: -2px; /* Fine-tune this value to align the title perfectly with the date text */
+      margin-top: -2px;
     }
 
     .article-row__body {
@@ -287,7 +281,7 @@
     /* FOOTER */
     footer {
       background: var(--black);
-      padding: 80px 0 50px 0; /* More top padding for a clean look */
+      padding: 80px 0 50px 0;
     }
 
     .footer-inner {
