@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEOWULF STUDIOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Reem+Kufi&family=Space+Mono...">
+  <style>
+    @font-face {
+        font-family: 'Montserrat Bold';
+        src: url('Montserrat-Bold.ttf') format('truetype');
+    }
+     @font-face {
+        font-family: 'Lato Regular';
+        src: url('Lato-Regular.ttf') format('truetype');
+    }
+    :root {
+      --red:     #E84B2A;
+      --black:   #0D0D0D;
+      --white:   #F2EFE9;
+      --grey:    #9A9590;
+      --light:   #E8E4DC;
+
+      --font-title: 'Reem Kufi', sans-serif;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-mono:    'Montserrat Bold', monospace;
+      --font-body:    'Lato Regular', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 0%, #EDE8DF 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 100%, #DDD8CF 0%, transparent 55%),
+        linear-gradient(170deg, #F5F1EA 0%, #EDE9E0 50%, #E4E0D6 100%);
+    }
+
+    /* FILM STRIP DECORATION */
+    .filmstrip {
+      width: 100%;
+      height: 28px;
+      background-color: var(--black);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 8px;
+      overflow: hidden;
+    }
+    .filmstrip__hole {
+      flex-shrink: 0;
+      width: 16px;
+      height: 14px;
+      background: var(--white);
+      border-radius: 2px;
+      opacity: 0.15;
+    }
+
+    /*  NAV  */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 50px;
+      height: 70px;
+    }
+    
+    .nav__logo {
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      font-family: var(--font-title);
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav__logo svg {
+    height: 40px;
+    width: auto;
+    }
+    
+    .nav__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav__links a {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 0.25em;
+      text-decoration: none;
+      text-transform: uppercase;
+      /*Random bullshit goooooo*/
+      background: linear-gradient(
+          to right,
+          #ffffff 50%, 
+          #F2A900 50% 
+      );
+      background-size: 200% 100%;
+      background-position: 0% 0%;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      transition: background-position 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .nav__links a:hover {background-position: -100% 0%;}
+
+    /* divider */
+    .divider__nav {
+      background-color:#E84B2A;
+      height: 10px;
+    }
+
+    /*  HERO  */
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero__left {
+      padding: 80px 60px 80px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .marquee-container {
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 10px 0;
+      border: 2px solid var(--red);
+      margin: 0 -60px 150px 10px;
+      max-width: calc(35vw)
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      animation: marquee 30s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 0.50em;
+      text-transform: uppercase;
+      color: var(--red);
+      padding-right: 60px;
+    }
+
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Red vertical accent bar */
+    .hero__left::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0%;
+      bottom: 0%;
+      width: 50px;
+      background: var(--red);
+    }
+
+    .hero__eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero__eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(72px, 9vw, 120px);
+      line-height: 0.92;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      margin-bottom: 32px;
+    }
+    .hero__title .accent { color: var(--red); }
+
+    .hero__body {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #4A4641;
+      max-width: 75%;
+      margin-bottom: 48px;
+    }
+
+    .hero__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--black);
+      padding: 14px 28px;
+      text-decoration: none;
+      transition: background 0.2s;
+      align-self: flex-start;
+    }
+    .hero__cta:hover { background: #ec008c; }
+    .hero__cta svg { transition: transform 0.2s; }
+    .hero__cta:hover svg { transform: translateX(4px); }
+
+    .hero__right {
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 60px 80px 60px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Diagonal crosshatch texture on the dark panel */
+    .hero__right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        rgba(255,255,255,0.018) 8px,
+        rgba(255,255,255,0.018) 9px
+      );
+    }
+
+    .hero__number {
+      font-family: var(--font-display);
+      font-size: 200px;
+      line-height: 1;
+      color: rgba(255,255,255,0.04);
+      position: absolute;
+      top: -05px;
+      right: 15px;
+      letter-spacing: -0.05em;
+      user-select: none;
+    }
+
+    .hero__project-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero__header-container {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      align-items: top;
+      gap: 50px;
+    }
+
+    .title{
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.2;
+      color: var(--white);
+      letter-spacing: 0.16em;
+      margin-bottom: 5px;
+    }
+
+    .body{
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--white);
+    }
+
+    .hero__project-meta {
+      display: flex;
+      gap: 24px;
+    }
+
+    .meta-chip {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--grey);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .meta-chip::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+    }
+
+    .hero__project-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hero__project-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: #E84B2A;
+      padding: 14px 28px;
+      text-decoration: none;
+      transition: background 0.2s;
+      align-self: flex-start;
+      z-index: 10;
+    }
+
+    .hero__project-cta:hover {
+      background: #F2A900; }
+    .hero__project-cta svg { transition: transform 0.2s; }
+    .hero__project-cta:hover svg { transform: translateX(4px); }
+
+    .hero__article-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: #4A4641;
+      padding: 14px 28px;
+      text-decoration: none;
+      transition: background 0.2s;
+      align-self: flex-start;
+      z-index: 10;
+    }
+
+    .hero__article-cta:hover {
+      background: #00aeef; }
+    .hero__article-cta svg { transition: transform 0.2s; }
+    .hero__article-cta:hover svg { transform: translateX(4px); }
+
+    /* articles */
+    .articles__section {
+      width: 100%;
+      background: var(--black);
+      padding: 80px 0; /* Padding only top/bottom; container handles sides */
+      box-sizing: border-box;
+      display: block; /* Completely isolates it from any floating elements above */
+      clear: both;
+    }
+
+    /* 2. 3-COLUMN LAYOUT */
+    .articles__container {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      box-sizing: border-box;
+
+            display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 32px !important;
+    }
+
+    /* 3. LOCKED ARTICLE CARD */
+    .article__card {
+      width: 100% !important;
+      height: 280px !important;
+      box-sizing: border-box;
+      
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid #ec008c;
+      padding: 24px;
+      
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+    }
+
+    .article__card:hover {
+      border-color: #00aeef;
+    }
+
+    .article__card .title {
+      font-size: 22px;
+      margin: 12px 0 6px 0;
+    }
+
+    .article__card .body {
+      font-size: 12px;
+      line-height: 1.4;
+      opacity: 0.8;
+    }
+
+    .article__card .hero__project-cta {
+      padding: 8px 16px;
+      font-size: 10px;
+    }
+
+    .article__cta-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background-color: var(--black);
+    }
+
+    .article__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      
+      width: 100%;
+      max-width: 400px;
+      padding: 20px 40px;
+      
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: #ec008c;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .article__cta:hover {
+      background: #00aeef;
+    }
+
+    /* divider */
+    .divider__footer {
+      background-color: #121212;
+      height: 10px;
+      color:#4A4641;
+    }
+
+/* FOOTER */
+/* FOOTER CONTAINER SETUP */
+footer {
+  background: var(--black);
+  padding: 80px 0 50px 0; /* More top padding for a clean look */
+}
+
+.footer-inner {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+}
+
+/* 3-COLUMN GRID */
+.footer__meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* COLUMN 1: LOGO */
+.footer__logo {
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: 0.12em;
+  color: var(--white);
+  line-height: 1.3;
+  text-decoration: none;
+  display: block;
+}
+
+/* COLUMN 2: LINKS SETUP */
+.footer__nav-col {
+  text-align: left;
+}
+
+.footer__nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer__nav-link {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--light-grey, #a0a0a0);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer__nav-link:hover {
+  color: #ec008c;
+}
+
+/* COLUMN 3: METADATA */
+.footer__meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--light-grey, #a0a0a0);
+  text-transform: uppercase;
+  text-align: right;
+  line-height: 2;
+}
+
+.footer__statements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.footer__land-ownership {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--light-grey, #a0a0a0); 
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 2.2;
+}
+
+.footer__land-ownership p {
+  margin: 0 0 30px 0;
+}
+
+.footer__land-ownership p:last-child {
+  margin-bottom: 0;
+}
+
+/* RESPONSIVE LAYOUT FOR MOBILE SCREENS */
+@media (max-width: 992px) {
+  .footer-inner {
+    padding: 0 40px;
+    gap: 50px;
+  }
+  .footer__meta-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .footer__logo, .footer__nav-col, .footer__meta {
+    text-align: center;
+  }
+}
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero__right { min-height: 50vh; }
+      .hero__left { padding: 60px 32px; }
+      .hero__left::after { display: none; }
+      .section { padding: 60px 32px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .projects-section { padding: 60px 32px; }
+      .footer-inner { padding: 40px 32px; flex-direction: column; gap: 32px; align-items: flex-start; }
+      .footer__meta { text-align: left; }
+      nav { padding: 0 24px; }
+      .nav__links { gap: 20px; }
+      .divider { margin: 0 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient"></div>
+  <div class="filmstrip">
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav__logo">
+        <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 613.46 1222.22">
+        <defs>
+            <style>
+            .cls-1 {
+                fill: #fff;
+                stroke: #fff;
+                stroke-miterlimit: 10;
+            }
+            </style>
+        </defs>
+        <polygon class="cls-1" points=".5 1.54 .5 546.72 164.24 787.76 298.95 1218.94 298.95 413.05 .5 1.54"/>
+        <polygon class="cls-1" points="612.96 1.54 612.96 546.72 449.21 787.76 314.5 1218.94 314.5 413.05 612.96 1.54"/>
+        </svg>
+        BEOWULF STUDIOS</a>
+    <ul class="nav__links">
+      <li><a href="unavailable.html">About</a></li>
+      <li><a href="unavailable.html">Projects</a></li>
+      <li><a href="careers.html#roles-section">Careers</a></li>
+      <li><a href="careers.html#open-apply">Contact</a></li>
+    </ul>
+  </nav>
+  
+  <!-- DIVIDER -->
+   <div class="divider__nav"></div>
+
+   <!-- HERO -->
+  <section class="hero">
+    <div class="hero__left"><div>
+        <!-- MARQUEE-->
+<a href="careers.html" class="marquee-link">
+  <div class="marquee-container">
+    <div class="marquee-track">
+      <span> NOW HIRING - REVSHARE COMPENSATION! &nbsp;&nbsp;&nbsp;</span>
+      <span> /// &nbsp;&nbsp;&nbsp;</span>
+      <span> NOW HIRING - REVSHARE COMPENSATION! &nbsp;&nbsp;&nbsp;</span>
+      <span> /// &nbsp;&nbsp;&nbsp;</span>
+      <span> NOW HIRING - REVSHARE COMPENSATION! &nbsp;&nbsp;&nbsp;</span>
+      <span> ///&nbsp;&nbsp;&nbsp;</span>
+      <span> NOW HIRING - REVSHARE COMPENSATION! &nbsp;&nbsp;&nbsp;</span>
+      <span> /// &nbsp;&nbsp;&nbsp;</span>
+      <span> NOW HIRING - REVSHARE COMPENSATION! &nbsp;&nbsp;&nbsp;</span>
+      <span> /// &nbsp;&nbsp;&nbsp;</span>
+      <span> NOW HIRING - REVSHARE COMPENSATION! &nbsp;&nbsp;&nbsp;</span>
+      <span> ///&nbsp;&nbsp;&nbsp;</span>
+    </div>
+    </div>
+    </div>
+    </a>
+
+      <p class="hero__eyebrow">Behaviour that's admired is the path to power among people everywhere.</p>
+      <h1 class="hero__title">
+        AUSTRALIAN<br>
+        ANIMATION<br>
+<audio id="yip-sound" src="yap.mp3" preload="auto"></audio>
+<span class="accent" 
+      style="cursor: pointer; user-select: none; -webkit-user-select: none; display: inline-block; transition: transform 0.05s ease;" 
+      onclick="let s = document.getElementById('yip-sound'); s.currentTime = 0; s.play();"
+      onmousedown="this.style.transform='scale(0.92)'" 
+      onmouseup="this.style.transform='scale(1)'" 
+      onmouseleave="this.style.transform='scale(1)'">Yip, Yip, Yip</span><br>
+      </h1>
+      <p class="hero__body">At BEOWULF STUDIOS, we build original animated worlds and rescue narratives in distress. We partner with creators, developers, and filmmakers to find the beating heart of their project and bring structural clarity to complex scripts.</p>
+      <a href="projects.html" class="hero__cta">
+        Current Projects
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
+<!--HERO PROJECT ACCENTS-->    
+<div class="hero__right">
+  <div class="hero__number">001</div>
+    <p class="hero__project-label">Current Production</p>
+  <!--TITLE AND BODY-->
+  <div class="hero__header-container">
+    <p class="body">Rue has mastered the art of disappearing.<br><br>Head down. Headphones in. Eyes on the ground. Get through the day, get through the night, repeat. <br><br> But beneath the rumours, the memories, and the version of her everyone else thinks they know, is a girl desperately trying to outrun a past that refuses to stay buried. Told through fractured memories and long, lonely nights, Rue's Ritual is a messy, painful, darkly funny story about shame, survival, and the small acts of humanity that can break even the cruellest cycles</p>
+    <h1 class="title">RUE'S<BR>RITUAL</h1>  
+  </div>
+<div class="hero__project-bottom">
+  <div class="hero__project-meta">
+    <span class="meta-chip">Short Film</span>
+    <span class="meta-chip">In Development</span>
+  </div>
+     <a href="projects.html" class="hero__project-cta">
+      Learn More
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+       </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!--ARTICLE SECTION-->
+<section class="articles__section">
+  <div class="articles__container">
+
+    <!-- Card 1 -->
+    <article class="article__card">
+      <div class="meta-chip">STUDIO LOG // 01</div>
+      <div>
+        <h3 class="title">From a spark to a flame</h3>
+        <p class="body">How a raw concept becomes a full narrative. Breaking down the development process from first idea to structured story.</p>
+      </div>
+      <a href="#" class="hero__article-cta">READ THE YAP</a>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="article__card">
+      <div class="meta-chip">PRODUCTION LOG // 01</div>
+      <div>
+        <h3 class="title">DESIGNING A PROOF-OF-CONCEPT</h3>
+        <p class="body">Breaking down the two micro-sequences at the heart of Rue's Ritual and how they'll evolve through production.</p>
+      </div>
+      <a href="#" class="hero__article-cta">READ THE YAP</a>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="article__card">
+      <div class="meta-chip">STUDIO LOG // 02</div>
+      <div>
+        <h3 class="title">BUILDING UNIQUE WORLDS</h3>
+        <p class="body">How to develop a concept from the ground up, the thinking behind building a story world before anything else.</p>
+      </div>
+      <a href="#" class="hero__article-cta">READ THE YAP</a>
+    </article>
+
+    <!-- Card 4 -->
+    <article class="article__card">
+      <div class="meta-chip">STUDIO LOG // 03</div>
+      <div>
+        <h3 class="title">DESIGNING A GRAPHIC STANDARD</h3>
+        <p class="body">A breakdown of building a studio identity from scratch, and how to develop your own graphic standard for your company.</p>
+      </div>
+      <a href="#" class="hero__article-cta">READ THE YAP</a>
+    </article>
+  </div>
+</section>
+
+  <div class="article__cta-container">
+     <a href="articles.html" class="article__cta">
+      See all the articles
+      </a>
+  </div>
+
+<!--DIVIDER-->
+<div class="divider__footer"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    
+    <!-- Three-Column Section -->
+    <div class="footer__meta-grid">
+      
+      <!-- Column 1: Brand Logo -->
+      <a href="#" class="footer__logo">BEOWULF<br>STUDIOS</a>
+      
+      <!-- Column 2: Navigation Links -->
+      <nav class="footer__nav-col" aria-label="Footer Navigation">
+        <ul class="footer__nav-list">
+          <li><a href="unavailable.html" class="footer__nav-link">Projects</a></li>
+          <li><a href="unavailable.html" class="footer__nav-link">About</a></li>
+          <li><a href="careers.html" class="footer__nav-link">Careers</a></li>
+          <li><a href="careers.html#open-apply" class="footer__nav-link">Contact</a></li>
+          <li><a href="articles.html" class="footer__nav-link">Articles</a></li>
+        </ul>
+      </nav>
+      
+      <!-- Column 3: Corporate Metadata -->
+      <div class="footer__meta">
+        <p>© 2026 Beowulf Studios</p>
+        <p>BEOWULF GROUP PTY LTD</p>
+        <p>Brisbane, Australia</p>
+      </div>
+    </div>
+
+    <!-- Centered Disclaimers Section -->
+    <div class="footer__statements">
+      <div class="footer__land-ownership">
+        <p>
+          We acknowledge the Traditional Custodians of the various lands across Australia<br>from which our team works, and pay our respects to Elders past and present.<br>
+          <img src="Aboriginal_Flag.png" style="height: 12px; vertical-align: middle; margin-top: 8px; margin-right: 4px; border-radius: 1px;">
+          <img src="Torres_Strait_Flag.png" style="height: 12px; vertical-align: middle; margin-top: 8px; margin-right: 8px; border-radius: 1px;">
+        </p>
+        <p>
+          <span>Our studio is an inclusive space.<br>We celebrate, welcome, and support people of all sexual orientations, gender identities, and expressions.</span><br>
+          <img src="LGBT_Flag.png" style="height: 12px; vertical-align: middle; margin-top: 8px; margin-right: 8px; border-radius: 1px;">
+        </p>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+  <script>
+  function fillFilmstrips() {
+  document.querySelectorAll('.filmstrip').forEach(strip => {
+    strip.innerHTML = '';
+    const count = Math.ceil(document.body.offsetWidth / 22) + 4;
+    for (let i = 0; i < count; i++) {
+      const hole = document.createElement('div');
+      hole.className = 'filmstrip__hole';
+      strip.appendChild(hole);
+    }
+  });
+}
+
+window.addEventListener('load', fillFilmstrips);
+window.addEventListener('resize', fillFilmstrips);
+  </script>
+
+</body>
+</html>

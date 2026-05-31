@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEOWULF STUDIOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Reem+Kufi&family=Space+Mono...">
+  <style>
+    @font-face {
+        font-family: 'Montserrat Bold';
+        src: url('Montserrat-Bold.ttf') format('truetype');
+    }
+     @font-face {
+        font-family: 'Lato Regular';
+        src: url('Lato-Regular.ttf') format('truetype');
+    }
+    :root {
+      --red:     #E84B2A;
+      --black:   #0D0D0D;
+      --white:   #F2EFE9;
+      --grey:    #9A9590;
+      --light:   #E8E4DC;
+
+      --font-title: 'Reem Kufi', sans-serif;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-mono:    'Montserrat Bold', monospace;
+      --font-body:    'Lato Regular', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:var(--white);
+  color:var(--black);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  position:relative;
+  font-family:var(--font-body)
+}
+
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  opacity:.03;
+  pointer-events:none;
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(0,0,0,.08),
+      rgba(0,0,0,.08) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+}
+
+.red-bar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:40px;
+  background:var(--red);
+}
+
+.panel{
+  max-width:800px;
+  padding:60px;
+}
+
+.status{
+  color:var(--red);
+  font-size:12px;
+  letter-spacing:.25em;
+  font-weight:bold;
+  margin-bottom:20px;
+}
+
+.code{
+  font-size:160px;
+  font-family: var(--font-title);
+  font-weight:bold;
+  line-height:1;
+}
+
+.title{
+  font-size:56px;
+  margin-bottom:20px;
+  font-family: var(--font-display);
+  text-transform:uppercase;
+}
+
+.body{
+  line-height:1.8;
+  color:#4A4641;
+  margin-bottom:40px;
+}
+
+.buttons{
+  display:flex;
+  gap:16px;
+  letter-spacing: .50em;
+  font-family: var(--font-display);
+  flex-wrap:wrap;
+}
+
+.btn{
+  background:#0D0D0D;
+  color:white;
+  text-decoration:none;
+  padding:14px 24px;
+  text-transform:uppercase;
+  font-size:18px;
+  font-display: var(--font-display);
+  text-decoration: none;
+  transition:.2s;
+}
+
+.btn:hover{
+  background:#E84B2A;
+}
+
+.footer{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  color:var(--grey);
+  font-size:10px;
+}
+
+.secret{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  color:var(--grey);
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="red-bar"></div>
+
+<div class="panel">
+
+  <div class="status">
+    FILE UNAVAILABLE :3
+  </div>
+
+  <div class="code">404</div>
+
+  <h1 class="title">FILE UNAVAILABLE</h1>
+
+  <p class="body">
+    This material has not yet been cleared for viewing<br>Our team is currently yapping about it.<br><br>CHECK BACK SOON.
+  </p>
+
+  <div class="buttons">
+    <a href="index.html" class="btn">Return Home</a>
+  </div>
+
+</div>
+
+<div class="secret" onclick="alert('yip yip yip')">
+  yip?
+</div>
+
+<div class="footer">
+  BEOWULF STUDIOS // DEVELOPMENT BUILD
+</div>
+
+</body>
+</html>

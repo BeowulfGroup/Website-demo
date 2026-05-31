@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Careers — BEOWULF STUDIOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Reem+Kufi&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Montserrat Bold';
+      src: url('Montserrat-Bold.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Lato Regular';
+      src: url('Lato-Regular.ttf') format('truetype');
+    }
+
+    :root {
+      --red:     #E84B2A;
+      --black:   #0D0D0D;
+      --white:   #F2EFE9;
+      --grey:    #9A9590;
+      --light:   #E8E4DC;
+
+      --font-title:   'Reem Kufi', sans-serif;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-mono:    'Montserrat Bold', 'Space Mono', monospace;
+      --font-body:    'Lato Regular', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 0%, #EDE8DF 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 100%, #DDD8CF 0%, transparent 55%),
+        linear-gradient(170deg, #F5F1EA 0%, #EDE9E0 50%, #E4E0D6 100%);
+    }
+
+    /* FILM STRIP */
+    .filmstrip {
+      width: 100%;
+      height: 28px;
+      background-color: var(--black);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 8px;
+      overflow: hidden;
+    }
+    .filmstrip__hole {
+      flex-shrink: 0;
+      width: 16px;
+      height: 14px;
+      background: var(--white);
+      border-radius: 2px;
+      opacity: 0.15;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 50px;
+      height: 70px;
+    }
+    .nav__logo {
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      font-family: var(--font-title);
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav__logo svg { height: 40px; width: auto; }
+    .nav__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav__links a {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 0.25em;
+      text-decoration: none;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #ffffff 50%, #F2A900 50%);
+      background-size: 200% 100%;
+      background-position: 0% 0%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: background-position 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .nav__links a:hover { background-position: -100% 0%; }
+
+    .divider__nav {
+      background-color: #E84B2A;
+      height: 10px;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      background: #EDE8DF;
+      padding: 100px 80px 80px;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--red);
+    }
+
+    /* Diagonal crosshatch on header */
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 8px,
+        rgba(0, 0, 0, 0.08) 8px,
+        rgba(0, 0, 0, 0.1) 9px
+      );
+      pointer-events: none;
+    }
+
+    .page-header__left {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-header__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    margin-top: 100px;
+    gap: 12px;
+    }
+    .page-header__eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .page-header__title {
+      font-family: var(--font-display);
+      font-size: clamp(72px, 9vw, 120px);
+      line-height: 0.92;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+    .page-header__title .accent { color: var(--red); }
+
+    .page-header__body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.8;
+      letter-spacing: 0.04em;
+      color: #1a1a1a;
+      max-width: 480px;
+    }
+
+    .page-header__right {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header__bg-number {
+      font-family: var(--font-display);
+      font-size: 240px;
+      line-height: 1;
+      color: rgba(0, 0, 0, 0.123);
+      position: absolute;
+      top: -20px;
+      right: -10px;
+      letter-spacing: -0.05em;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .header__stats {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      text-align: right;
+    }
+
+    .header__stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: #121212;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .header__stat-value {
+      font-family: var(--font-display);
+      font-size: 42px;
+      line-height: 1;
+      color: #1a1a1a;
+      letter-spacing: 0.05em;
+    }
+
+    /* MARQUEE */
+    .marquee-container {
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 2px 0;
+      background: #E84B2A;
+    }
+    .marquee-track {
+      display: inline-flex;
+      animation: marquee 35s linear infinite;
+    }
+    .marquee-track span {
+      font-family: var(--font-display);
+      font-size: 50px;
+      letter-spacing: 0.50em;
+      text-transform: uppercase;
+      color: var(--black);
+      padding-right: 50px;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ROLES SECTION */
+    .roles-section {
+      background: var(--black);
+      padding: 100px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .roles-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        rgba(255,255,255,0.012) 8px,
+        rgba(255,255,255,0.012) 9px
+      );
+      pointer-events: none;
+    }
+
+    .roles-section__header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 64px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1;
+      letter-spacing: 0.06em;
+      color: var(--white);
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .role-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      cursor: pointer;
+      transition: border-color 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .role-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 5px;
+      width: 0;
+      background: rgba(242, 169, 0);
+      transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .role-card:hover::before { width: 100%; }
+    .role-card:hover {
+      border-color: rgba(242, 169, 0);
+      background: rgba(242, 169, 0, 0.13);
+    }
+
+    .role-card__dept {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--grey);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .role-card__dept::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+    }
+
+    .role-card__title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .role-card__desc {
+      font-family: var(--font-body);
+      font-size: 12px;
+      line-height: 1.65;
+      color: rgba(242,239,233,0.5);
+      flex: 1;
+    }
+
+    .role-card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+
+    .role-card__type {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .role-card__email {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--red);
+    padding: 10px 25px;
+    border: none;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background 0.2s;
+    }
+
+    .role-card__email:hover { background: #F2A900; }
+
+    /* OPEN APPLICATION */
+    .open-apply {
+      background: var(--black);
+      padding: 100px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .open-apply::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        rgba(255,255,255,0.012) 8px,
+        rgba(255,255,255,0.012) 9px
+      );
+      pointer-events: none;
+    }
+
+    .open-apply__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .open-apply__label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .open-apply__heading {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 6vw, 80px);
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+    }
+    .open-apply__heading .accent { color: var(--red); }
+
+    .open-apply__right {
+      position: relative;
+      z-index: 1;
+    }
+
+    .open-apply__body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.85;
+      color: rgba(242,239,233,0.6);
+      margin-bottom: 40px;
+    }
+
+    .apply-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .apply-form__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .apply-form input,
+    .apply-form select,
+    .apply-form textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 14px 18px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+
+    .apply-form input::placeholder,
+    .apply-form textarea::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+
+    .apply-form select {
+      cursor: pointer;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .apply-form select option {
+      background: #1a1a1a;
+      color: var(--white);
+    }
+
+    .apply-form input:focus,
+    .apply-form select:focus,
+    .apply-form textarea:focus {
+      border-color: var(--red);
+    }
+
+    .apply-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .apply-form__submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--red);
+      padding: 16px 32px;
+      border: none;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: background 0.2s;
+    }
+    .apply-form__submit:hover { background: #F2A900; }
+
+    /* FOOTER */
+    .divider__footer {
+      background-color: #121212;
+      height: 10px;
+    }
+
+    footer {
+      background: var(--black);
+      padding: 80px 0 50px 0;
+    }
+
+    .footer-inner {
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 100px;
+    }
+
+    .footer__meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .footer__logo {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      line-height: 1.3;
+      text-decoration: none;
+      display: block;
+    }
+
+    .footer__nav-col { text-align: left; }
+
+    .footer__nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .footer__nav-link {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer__nav-link:hover { color: #ec008c; }
+
+    .footer__meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      text-align: right;
+      line-height: 2;
+    }
+
+    .footer__statements {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .footer__land-ownership {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 2.2;
+    }
+
+    .footer__land-ownership p {
+      margin: 0 0 30px 0;
+    }
+
+    .footer__land-ownership p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .footer-inner { padding: 0 40px; gap: 50px; }
+      .footer__meta-grid { grid-template-columns: 1fr; gap: 35px; }
+      .footer__logo, .footer__nav-col, .footer__meta { text-align: center; }
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav__links { gap: 20px; }
+      .page-header { grid-template-columns: 1fr; padding: 60px 32px; }
+      .page-header__right { display: none; }
+      .philosophy { grid-template-columns: 1fr; padding: 60px 32px; gap: 40px; }
+      .philosophy__pillars { grid-template-columns: 1fr; }
+      .roles-section { padding: 60px 32px; }
+      .roles-grid { grid-template-columns: 1fr; }
+      .revshare-banner { grid-template-columns: 1fr; padding: 60px 32px; gap: 40px; }
+      .values-strip { padding: 60px 32px; }
+      .values-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .open-apply { grid-template-columns: 1fr; padding: 60px 32px; gap: 40px; }
+      .apply-form__row { grid-template-columns: 1fr; }
+      .footer-inner { padding: 40px 32px; flex-direction: column; gap: 32px; align-items: flex-start; }
+      .footer__meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient"></div>
+  <div class="filmstrip"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav__logo">
+      <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 613.46 1222.22">
+        <defs><style>.cls-1{fill:#fff;stroke:#fff;stroke-miterlimit:10;}</style></defs>
+        <polygon class="cls-1" points=".5 1.54 .5 546.72 164.24 787.76 298.95 1218.94 298.95 413.05 .5 1.54"/>
+        <polygon class="cls-1" points="612.96 1.54 612.96 546.72 449.21 787.76 314.5 1218.94 314.5 413.05 612.96 1.54"/>
+      </svg>
+      BEOWULF STUDIOS
+    </a>
+    <ul class="nav__links">
+    <li><a href="unavailable.html">About</a></li>
+    <li><a href="unavailable.html">Projects</a></li>
+    <li><a href="/careers.html#roles-section" class="active">Careers</a></li>
+    <li><a href="/careers.html#open-apply">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- RED DIVIDER -->
+  <div class="divider__nav"></div>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <div class="page-header__left">
+      <p class="page-header__eyebrow">Join the Studio</p>
+      <h1 class="page-header__title">
+        BUILD WITH<br>
+        <span class="accent">US.</span>
+      </h1>
+      <p class="page-header__body">
+        We're building the foundation. The people who come in now don't just join the studio, they're going to help shape what it becomes.
+      </p>
+    </div>
+    <div class="page-header__right">
+      <div class="header__bg-number">02</div>
+      <div class="header__stats">
+        <div>
+          <p class="header__stat-label">REMOTE OPTIONS</p>
+          <p class="header__stat-value">AVAILABLE</span></p>
+        </div>
+        <div>
+          <p class="header__stat-label">LOCATION</p>
+          <p class="header__stat-value">BRISBANE</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-container">
+    <div class="marquee-track">
+      <span>NOW HIRING — REVSHARE COMPENSATION &nbsp;&nbsp;&nbsp;</span>
+      <span>/// &nbsp;&nbsp;&nbsp;</span>
+      <span>ANIMATORS — STORYBOARD ARTISTS — CHARACTER DESIGNERS — WRITERS &nbsp;&nbsp;&nbsp;</span>
+      <span>/// &nbsp;&nbsp;&nbsp;</span>
+      <span>NOW HIRING — REVSHARE COMPENSATION &nbsp;&nbsp;&nbsp;</span>
+      <span>/// &nbsp;&nbsp;&nbsp;</span>
+      <span>ANIMATORS — STORYBOARD ARTISTS — CHARACTER DESIGNERS — WRITERS &nbsp;&nbsp;&nbsp;</span>
+      <span>/// &nbsp;&nbsp;&nbsp;</span>
+      <span>NOW HIRING — REVSHARE COMPENSATION &nbsp;&nbsp;&nbsp;</span>
+      <span>/// &nbsp;&nbsp;&nbsp;</span>
+      <span>ANIMATORS — STORYBOARD ARTISTS — CHARACTER DESIGNERS — WRITERS &nbsp;&nbsp;&nbsp;</span>
+      <span>/// &nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- OPEN ROLES -->
+<section class="roles-section" id="roles-section">
+    <div class="roles-section__header">
+      <div>
+        <p class="section-label">Open Positions</p>
+        <h2 class="section-title">CURRENT ROLES</h2>
+      </div>
+    </div>
+
+    <div class="roles-grid">
+
+      <!-- Role 1 -->
+      <div class="role-card">
+        <p class="role-card__dept">Production</p>
+        <h3 class="role-card__title">2D ANIMATOR</h3>
+        <p class="role-card__desc"> Trigger-influenced but grounded. It's mostly walking, cuts, and held moments with a handful of high-impact emotional scenes. If you can make limited movement feel intentional and expressive rather than cheap, that's the skill we need.</p>
+        <div class="role-card__footer">
+          <span class="role-card__type">Revshare · Remote-Friendly · Priority</span>
+            <button class="role-card__email" onclick="window.location.href='mailto:hiring@beowulfgroup.com.au'">hiring@beowulfgroup.com.au</button>
+        </div>
+    </div>
+
+      <!-- Role 2 -->
+      <div class="role-card">
+        <p class="role-card__dept">Visual Development</p>
+        <h3 class="role-card__title">STORYBOARD ARTIST</h3>
+        <p class="role-card__desc"> Most scenes are yours. We'll have ideas on the key moments but day to day you're driving the visual storytelling. We want someone who has opinions and isn't afraid to use them.</p>
+        <div class="role-card__footer">
+          <span class="role-card__type">Revshare · Remote</span>
+           <button class="role-card__email" onclick="window.location.href='mailto:hiring@beowulfgroup.com.au'">hiring@beowulfgroup.com.au</button>
+        </div>
+    </div>
+
+      <!-- Role 3 -->
+      <div class="role-card">
+        <p class="role-card__dept">Visual Development</p>
+        <h3 class="role-card__title">Illustrator</h3>
+        <p class="role-card__desc"> Develop the main cast, design supporting characters, render key scenes, draw memes. Lots of creative freedom
+        </p>
+        <div class="role-card__footer">
+          <span class="role-card__type">Revshare · Remote</span>
+            <button class="role-card__email" onclick="window.location.href='mailto:hiring@beowulfgroup.com.au'">hiring@beowulfgroup.com.au</button>
+        </div>
+    </div>
+
+      <!-- Role 4 -->
+
+      <!-- Role 5 -->
+      <div class="role-card">
+        <p class="role-card__dept">Marketing</p>
+        <h3 class="role-card__title">Marketing Agent</h3>
+        <p class="role-card__desc">Keeping the lights on socially! Drip content, community presence, occasional comms. You don't have to be loud, you just have to be consistent.</p>
+        <div class="role-card__footer">
+          <span class="role-card__type">Revshare · Remote · Adobe Suite preferred  [ ADOBE INDESIGN ]</span>
+            <button class="role-card__email" onclick="window.location.href='mailto:hiring@beowulfgroup.com.au'">hiring@beowulfgroup.com.au</button>   
+        </div>
+    </div>
+
+      <!-- Role 6 -->
+    </div>
+  </section>
+
+  <!-- OPEN APPLICATION -->
+<section class="open-apply" id="open-apply">    
+  <div>
+    <p class="open-apply__label">Get In Touch</p>
+    <h2 class="open-apply__heading">
+      HAVE QUESTIONS<br>OR WANT TO&nbsp;<span class="accent">JOIN US?</span>
+    </h2>
+  </div>
+  <div class="open-apply__right">
+    <p class="open-apply__body">Is your dream role not open or have a general inquiry fill out the form below, we'll get back to you asap [ 1 - 2 Weeks ]</p>
+    
+    <!-- 1. UPDATED TO FREE WEB3FORMS ROUTE -->
+    <form class="apply-form" action="https://web3forms.com" method="POST">
+      
+      <!-- 2. PLUGGED IN YOUR FREE ACCESS KEY FROM YOUR SCREENSHOT -->
+      <input type="hidden" name="access_key" value="0d05c664-2b80-4c24-aa32-375cb01381ab">
+
+      <div class="apply-form__row">
+        <input type="text" name="visitor_name" placeholder="Your Name" required>
+        <input type="email" name="visitor_email" placeholder="Email Address" required>
+      </div>
+      
+      <select name="discipline_or_role" required>
+        <option value="" disabled selected>Discipline / Role Type</option>
+        <option>Animation</option>
+        <option>Storyboard / Boarding</option>
+        <option>Character Design</option>
+        <option>Background / Environment Art</option>
+        <option>Writing / Story</option>
+        <option>Compositing / VFX</option>
+        <option>Sound / Music</option>
+        <option>Production</option>
+        <option>Other</option>
+      </select>
+      
+      <textarea name="message" placeholder="Submit your inquiry. Tell us about yourself and your work. Link your portfolio if you have one." required></textarea>
+      
+      <button class="apply-form__submit" type="submit">
+        Send It
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+</section>
+
+  <!-- FOOTER -->
+  <div class="divider__footer"></div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer__meta-grid">
+        <a href="index.html" class="footer__logo">BEOWULF<br>STUDIOS</a>
+        <nav class="footer__nav-col" aria-label="Footer Navigation">
+          <ul class="footer__nav-list">
+            <li><a href="index.html" class="footer__nav-link">Home Page</a></li>
+            <li><a href="unavailable.html" class="footer__nav-link">Projects</a></li>
+            <li><a href="unavailable.html" class="footer__nav-link">About</a></li>
+            <li><a href="careers.html#open-apply" class="footer__nav-link">Contact</a></li>
+            <li><a href="articles.html" class="footer__nav-link">Articles</a></li>
+          </ul>
+        </nav>
+        <div class="footer__meta">
+          <p>© 2026 Beowulf Studios</p>
+          <p>BEOWULF GROUP PTY LTD</p>
+          <p>Brisbane, Australia</p>
+        </div>
+      </div>
+      <div class="footer__statements">
+        <div class="footer__land-ownership">
+          <p>
+            We acknowledge the Traditional Custodians of the various lands across Australia<br>
+            from which our team works, and pay our respects to Elders past and present.<br>
+            <img src="Aboriginal_Flag.png" style="height: 12px; vertical-align: middle; margin-top: 8px; margin-right: 4px; border-radius: 1px;">
+            <img src="Torres_Strait_Flag.png" style="height: 12px; vertical-align: middle; margin-top: 8px; margin-right: 8px; border-radius: 1px;">
+          </p>
+          <p>
+            <span>Our studio is an inclusive space.<br>We celebrate, welcome, and support people of all sexual orientations, gender identities, and expressions.</span><br>
+            <img src="LGBT_Flag.png" style="height: 12px; vertical-align: middle; margin-top: 8px; margin-right: 8px; border-radius: 1px;">
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function fillFilmstrips() {
+      document.querySelectorAll('.filmstrip').forEach(strip => {
+        strip.innerHTML = '';
+        const count = Math.ceil(document.body.offsetWidth / 22) + 4;
+        for (let i = 0; i < count; i++) {
+          const hole = document.createElement('div');
+          hole.className = 'filmstrip__hole';
+          strip.appendChild(hole);
+        }
+      });
+    }
+    window.addEventListener('load', fillFilmstrips);
+    window.addEventListener('resize', fillFilmstrips);
+  </script>
+
+</body>
+</html>
