@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Title — BEOWULF STUDIOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Reem+Kufi&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Montserrat Bold';
+      src: url('Montserrat-Bold.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Lato Regular';
+      src: url('Lato-Regular.ttf') format('truetype');
+    }
+
+    :root {
+      --red:     #E84B2A;
+      --black:   #0D0D0D;
+      --white:   #F2EFE9;
+      --grey:    #9A9590;
+      --light:   #E8E4DC;
+
+      --font-title:   'Reem Kufi', sans-serif;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-mono:    'Montserrat Bold', monospace;
+      --font-body:    'Lato Regular', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 0%, #EDE8DF 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 100%, #DDD8CF 0%, transparent 55%),
+        linear-gradient(170deg, #F5F1EA 0%, #EDE9E0 50%, #E4E0D6 100%);
+    }
+
+    /* FILM STRIP */
+    .filmstrip {
+      width: 100%;
+      height: 28px;
+      background-color: var(--black);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 8px;
+      overflow: hidden;
+    }
+    .filmstrip__hole {
+      flex-shrink: 0;
+      width: 16px;
+      height: 14px;
+      background: var(--white);
+      border-radius: 2px;
+      opacity: 0.15;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 50px;
+      height: 70px;
+    }
+    .nav__logo {
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      font-family: var(--font-title);
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav__logo svg { height: 40px; width: auto; }
+    .nav__links { display: flex; gap: 32px; list-style: none; }
+    .nav__links a {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 0.25em;
+      text-decoration: none;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #ffffff 50%, #F2A900 50%);
+      background-size: 200% 100%;
+      background-position: 0% 0%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: background-position 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .nav__links a:hover { background-position: -100% 0%; }
+
+    .divider__nav { background-color: #E84B2A; height: 10px; }
+
+    /* META CHIP — matches index.html */
+    .meta-chip {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--black);
+      border: 1px solid rgba(0,0,0,0.25);
+      padding: 4px 10px;
+    }
+
+    /* =====================
+       ARTICLE HEADER
+    ===================== */
+    .article-header {
+      background: #EDE8DF;
+      padding: 80px 80px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .article-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--red);
+    }
+    .article-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent, transparent 8px,
+        rgba(0,0,0,0.08) 8px, rgba(0,0,0,0.1) 9px
+      );
+      pointer-events: none;
+    }
+
+    .article-header__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+    }
+
+    .article-header__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      text-decoration: none;
+      margin-bottom: 36px;
+      transition: gap 0.2s;
+    }
+    .article-header__back:hover { gap: 14px; }
+
+    .article-header__meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .article-header__date {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .article-header__read-time {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .article-header__read-time::before { content: '//'; margin-right: 8px; color: rgba(0,0,0,0.2); }
+
+    .article-header__title {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 7vw, 96px);
+      line-height: 0.92;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      margin-bottom: 28px;
+    }
+
+    .article-header__subtitle {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.75;
+      color: #3a3a3a;
+      max-width: 640px;
+      letter-spacing: 0.02em;
+    }
+
+    /* =====================
+       ARTICLE LAYOUT
+    ===================== */
+    .article-layout {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 80px 100px;
+      align-items: start;
+    }
+
+    /* =====================
+       ARTICLE BODY
+    ===================== */
+    .article-body {
+      padding-right: 72px;
+      border-right: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .article-body p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.9;
+      color: #1a1a1a;
+      letter-spacing: 0.02em;
+      margin-bottom: 28px;
+    }
+
+    .article-body h2 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 48px);
+      letter-spacing: 0.06em;
+      color: var(--black);
+      line-height: 1;
+      margin: 56px 0 20px;
+      position: relative;
+      padding-left: 20px;
+    }
+    .article-body h2::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--red);
+    }
+
+    .article-body h3 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin: 40px 0 16px;
+    }
+
+    .article-body ul, .article-body ol {
+      padding-left: 24px;
+      margin-bottom: 28px;
+    }
+    .article-body li {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.8;
+      color: #1a1a1a;
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+
+    .article-body a {
+      color: var(--red);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s;
+    }
+    .article-body a:hover { color: #F2A900; }
+
+    .article-body hr {
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.12);
+      margin: 48px 0;
+    }
+
+    /* INLINE IMAGE */
+    .article-image { margin: 40px 0; }
+    .article-image img { width: 100%; display: block; }
+    .article-image figcaption {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-top: 10px;
+      padding-left: 2px;
+    }
+    .article-image--wide { margin-left: -40px; margin-right: -40px; }
+
+    /* =====================
+       SIDEBAR
+    ===================== */
+    .article-sidebar {
+      padding-left: 40px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-block { margin-bottom: 48px; }
+
+    .sidebar-block__label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar-block__label::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .toc-list a {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      text-decoration: none;
+      display: block;
+      padding: 6px 0 6px 12px;
+      border-left: 2px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+      line-height: 1.5;
+    }
+    .toc-list a:hover, .toc-list a.active {
+      border-left-color: var(--red);
+      color: var(--black);
+    }
+
+    .author-block {
+      background: rgba(0,0,0,0.04);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 20px;
+    }
+    .author-block__name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+    .author-block__role {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .tags-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--black);
+      border: 1px solid rgba(0,0,0,0.2);
+      padding: 4px 10px;
+    }
+
+    /* =====================
+       RELATED ARTICLES
+    ===================== */
+    .related-section {
+      background: var(--black);
+      padding: 80px 80px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .related-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent, transparent 8px,
+        rgba(255,255,255,0.012) 8px, rgba(255,255,255,0.012) 9px
+      );
+      pointer-events: none;
+    }
+
+    .related-section__header { margin-bottom: 48px; position: relative; z-index: 1; }
+
+    .related-section__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .related-section__label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .related-section__title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 52px);
+      letter-spacing: 0.06em;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Matches index.html article__card style */
+    .related-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-decoration: none;
+      transition: border-color 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .related-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 3px; width: 0;
+      background: var(--red);
+      transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .related-card:hover::before { width: 100%; }
+    .related-card:hover {
+      border-color: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .related-card .meta-chip {
+      color: var(--grey);
+      border-color: rgba(255,255,255,0.12);
+      align-self: flex-start;
+    }
+
+    .related-card__title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .related-card__desc {
+      font-family: var(--font-body);
+      font-size: 12px;
+      line-height: 1.65;
+      color: rgba(242,239,233,0.45);
+      flex: 1;
+    }
+
+    /* Matches index.html hero__article-cta */
+    .hero__article-cta {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--red);
+      padding: 10px 20px;
+      text-decoration: none;
+      align-self: flex-start;
+      transition: background 0.2s;
+    }
+    .hero__article-cta:hover { background: #F2A900; }
+
+    /* =====================
+       FOOTER
+    ===================== */
+    .divider__footer { background-color: #121212; height: 10px; }
+
+    footer { background: var(--black); padding: 80px 0 50px 0; }
+
+    .footer-inner {
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 100px;
+    }
+
+    .footer__meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .footer__logo {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      line-height: 1.3;
+      text-decoration: none;
+      display: block;
+    }
+
+    .footer__nav-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+
+    .footer__nav-link {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer__nav-link:hover { color: #ec008c; }
+
+    .footer__meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      text-align: right;
+      line-height: 2;
+    }
+
+    .footer__statements { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+    .footer__land-ownership {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 2.2;
+    }
+    .footer__land-ownership p { margin: 0 0 30px 0; }
+    .footer__land-ownership p:last-child { margin-bottom: 0; }
+
+    /* =====================
+       RESPONSIVE
+    ===================== */
+    @media (max-width: 1024px) {
+      .article-layout { grid-template-columns: 1fr; padding: 60px 40px; }
+      .article-body { padding-right: 0; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 60px; margin-bottom: 60px; }
+      .article-sidebar { position: static; padding-left: 0; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav__links { gap: 20px; }
+      .article-header { padding: 60px 32px 48px; }
+      .article-layout { padding: 48px 32px; }
+      .related-section { padding: 60px 32px 80px; }
+      .related-grid { grid-template-columns: 1fr; }
+      .footer-inner { padding: 0 32px; gap: 48px; }
+      .footer__meta-grid { grid-template-columns: 1fr; }
+      .footer__meta { text-align: left; }
+      .article-image--wide { margin-left: 0; margin-right: 0; }
+    }
+    @media (max-width: 992px) {
+      .footer-inner { padding: 0 40px; gap: 50px; }
+      .footer__meta-grid { grid-template-columns: 1fr; gap: 35px; }
+      .footer__logo, .footer__nav-col, .footer__meta { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient"></div>
+  <div class="filmstrip"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav__logo">
+      <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 613.46 1222.22">
+        <defs><style>.cls-1{fill:#fff;stroke:#fff;stroke-miterlimit:10;}</style></defs>
+        <polygon class="cls-1" points=".5 1.54 .5 546.72 164.24 787.76 298.95 1218.94 298.95 413.05 .5 1.54"/>
+        <polygon class="cls-1" points="612.96 1.54 612.96 546.72 449.21 787.76 314.5 1218.94 314.5 413.05 612.96 1.54"/>
+      </svg>
+      BEOWULF STUDIOS
+    </a>
+    <ul class="nav__links">
+      <li><a href="unavailable.html">About</a></li>
+      <li><a href="unavailable.html">Projects</a></li>
+      <li><a href="careers.html#roles-section">Careers</a></li>
+      <li><a href="careers.html#open-apply">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="divider__nav"></div>
+
+  <!-- =====================
+       ARTICLE HEADER
+       EDIT: log number, category, date, read time, title, subtitle
+  ===================== -->
+  <header class="article-header">
+    <div class="article-header__inner">
+      <a href="articles.html" class="article-header__back">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+          <path d="M13 5H1M5 1L1 5l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        All Articles
+      </a>
+      <div class="article-header__meta">
+        <span class="meta-chip">STUDIO LOG // 01</span>  <!-- EDIT: log label -->
+        <span class="article-header__date">May 2026</span>  <!-- EDIT: date -->
+        <span class="article-header__read-time">5 Min Read</span>  <!-- EDIT: read time -->
+      </div>
+      <h1 class="article-header__title">FROM SPARK<br>TO FLAME</h1>  <!-- EDIT: title -->
+      <p class="article-header__subtitle">
+        How a raw concept becomes a full narrative. Breaking down the development process from first idea to structured story.
+      </p>  <!-- EDIT: subtitle -->
+    </div>
+  </header>
+
+  <!-- =====================
+       ARTICLE BODY + SIDEBAR
+  ===================== -->
+  <div class="article-layout">
+
+    <article class="article-body">
+
+      <!--
+        WRITING GUIDE:
+        · <p>                                     body paragraph
+        · <h2 id="section-id">HEADING</h2>       major section (auto-highlights TOC)
+        · <h3>Sub-heading</h3>                    sub-heading
+        · <ul> / <ol>                             lists
+        · <hr>                                    section break
+        · <figure class="article-image">          inline image (normal width)
+        · <figure class="article-image article-image--wide">   wider image
+      -->
+
+      <p>
+        Every project starts somewhere. For us, it rarely starts with a polished pitch or a clean three-act structure. It starts with a feeling — something half-formed that keeps showing back up. This article is about what we do with that.
+      </p>
+
+      <p>
+        The gap between "I have this idea" and "I have something we can actually make" is where most projects die. Not because the idea wasn't good enough, but because there's no clear process for crossing that gap. Here's ours.
+      </p>
+
+      <!-- INLINE IMAGE — replace src and alt -->
+      <figure class="article-image">
+        <img src="your-image.jpg" alt="Description of image">
+        <figcaption>Caption text here — keep it brief</figcaption>
+      </figure>
+
+      <h2 id="step-one">Step One: Don't Kill It Early</h2>
+
+      <p>
+        The first instinct when you have a raw idea is to test it. You tell someone, you pitch it, you ask if it's any good. This is usually a mistake. Ideas at the spark stage are fragile — they can't survive contact with skepticism yet because you haven't built the structure around them that makes them defensible.
+      </p>
+
+      <p>
+        Give it time to breathe. Write down what it is without trying to make it better. Just describe it. What's the feeling? What's the image? What's the thing you keep coming back to? That's your seed.
+      </p>
+
+      <h2 id="step-two">Step Two: Find the Spine</h2>
+
+      <p>
+        Once you have the seed, the next question is: what is this actually about? Not the plot, not the characters — the thematic core. What question does this story want to ask?
+      </p>
+
+      <p>
+        For Rue's Ritual, the spine was something like: <em>what do people keep doing even when they know it won't work?</em> That question shaped everything — character decisions, tone, even visual style. When you have that question, everything else has something to push against.
+      </p>
+
+      <h2 id="step-three">Step Three: The First Ugly Draft</h2>
+
+      <p>
+        Now you write. And it will be bad. That's the point. The first draft is about getting the shape of the thing on paper — not the quality of it. Structure first, voice second. You can't edit nothing.
+      </p>
+
+      <h3>What we actually do</h3>
+
+      <p>
+        We use a simple beat sheet before any formal script work. Each beat is a single sentence: what happens, and what changes because of it. If something doesn't change something, it doesn't belong yet.
+      </p>
+
+      <ul>
+        <li>Write the opening image — what's the first thing we see?</li>
+        <li>Write the break — what disrupts the world?</li>
+        <li>Write the turn — what does the protagonist choose?</li>
+        <li>Write the end — how has something changed?</li>
+      </ul>
+
+      <p>
+        That's it for round one. Four sentences. From there you expand outward.
+      </p>
+
+      <hr>
+
+      <p>
+        Development is messy and non-linear and uncomfortable. But if you can protect the spark long enough to find the spine, the rest becomes craft. And craft can be learned.
+      </p>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar">
+
+      <!-- TABLE OF CONTENTS — keep IDs in sync with your h2 tags above -->
+      <div class="sidebar-block">
+        <p class="sidebar-block__label">Contents</p>
+        <ul class="toc-list" id="toc">
+          <li><a href="#step-one">Don't Kill It Early</a></li>       <!-- EDIT -->
+          <li><a href="#step-two">Find the Spine</a></li>            <!-- EDIT -->
+          <li><a href="#step-three">The First Ugly Draft</a></li>    <!-- EDIT -->
+        </ul>
+      </div>
+
+      <!-- AUTHOR -->
+      <div class="sidebar-block">
+        <p class="sidebar-block__label">Written By</p>
+        <div class="author-block">
+          <p class="author-block__name">AUTHOR NAME</p>   <!-- EDIT -->
+          <p class="author-block__role">Role · Studio</p> <!-- EDIT -->
+        </div>
+      </div>
+
+      <!-- TAGS -->
+      <div class="sidebar-block">
+        <p class="sidebar-block__label">Tags</p>
+        <div class="tags-list">
+          <span class="tag">Development</span>  <!-- EDIT -->
+          <span class="tag">Studio</span>
+          <span class="tag">Writing</span>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- =====================
+       RELATED ARTICLES
+       EDIT: chip label, title, desc, href for each card
+  ===================== -->
+  <section class="related-section">
+    <div class="related-section__header">
+      <p class="related-section__label">Keep Reading</p>
+      <h2 class="related-section__title">RELATED ARTICLES</h2>
+    </div>
+
+    <div class="related-grid">
+
+      <a href="article-template.html" class="related-card">
+        <span class="meta-chip">PRODUCTION LOG // 01</span>
+        <h3 class="related-card__title">DESIGNING A PROOF-OF-CONCEPT</h3>
+        <p class="related-card__desc">Breaking down the two micro-sequences at the heart of Rue's Ritual and how they'll evolve through production.</p>
+        <span class="hero__article-cta">READ THE YAP</span>
+      </a>
+
+      <a href="article-template.html" class="related-card">
+        <span class="meta-chip">STUDIO LOG // 02</span>
+        <h3 class="related-card__title">BUILDING UNIQUE WORLDS</h3>
+        <p class="related-card__desc">How to develop a concept from the ground up, the thinking behind building a story world before anything else.</p>
+        <span class="hero__article-cta">READ THE YAP</span>
+      </a>
+
+      <a href="article-template.html" class="related-card">
+        <span class="meta-chip">STUDIO LOG // 03</span>
+        <h3 class="related-card__title">DESIGNING A GRAPHIC STANDARD</h3>
+        <p class="related-card__desc">A breakdown of building a studio identity from scratch, and how to develop your own graphic standard.</p>
+        <span class="hero__article-cta">READ THE YAP</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="divider__footer"></div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer__meta-grid">
+        <a href="index.html" class="footer__logo">BEOWULF<br>STUDIOS</a>
+        <nav class="footer__nav-col" aria-label="Footer Navigation">
+          <ul class="footer__nav-list">
+            <li><a href="index.html" class="footer__nav-link">Home Page</a></li>
+            <li><a href="unavailable.html" class="footer__nav-link">Projects</a></li>
+            <li><a href="unavailable.html" class="footer__nav-link">About</a></li>
+            <li><a href="careers.html#open-apply" class="footer__nav-link">Contact</a></li>
+            <li><a href="articles.html" class="footer__nav-link">Articles</a></li>
+          </ul>
+        </nav>
+        <div class="footer__meta">
+          <p>© 2026 Beowulf Studios</p>
+          <p>BEOWULF GROUP PTY LTD</p>
+          <p>Brisbane, Australia</p>
+        </div>
+      </div>
+      <div class="footer__statements">
+        <div class="footer__land-ownership">
+          <p>
+            We acknowledge the Traditional Custodians of the various lands across Australia<br>
+            from which our team works, and pay our respects to Elders past and present.<br>
+            <img src="Aboriginal_Flag.png" style="height: 12px; vertical-align: middle; margin-top: 8px; margin-right: 4px; border-radius: 1px;">
+            <img src="Torres_Strait_Flag.png" style="height: 12px; vertical-align: middle; margin-top: 8px; margin-right: 8px; border-radius: 1px;">
+          </p>
+          <p>
+            <span>Our studio is an inclusive space.<br>We celebrate, welcome, and support people of all sexual orientations, gender identities, and expressions.</span><br>
+            <img src="LGBT_Flag.png" style="height: 12px; vertical-align: middle; margin-top: 8px; margin-right: 8px; border-radius: 1px;">
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function fillFilmstrips() {
+      document.querySelectorAll('.filmstrip').forEach(strip => {
+        strip.innerHTML = '';
+        const count = Math.ceil(document.body.offsetWidth / 22) + 4;
+        for (let i = 0; i < count; i++) {
+          const hole = document.createElement('div');
+          hole.className = 'filmstrip__hole';
+          strip.appendChild(hole);
+        }
+      });
+    }
+    window.addEventListener('load', fillFilmstrips);
+    window.addEventListener('resize', fillFilmstrips);
+
+    // TOC active highlight on scroll
+    const headings = document.querySelectorAll('.article-body h2[id]');
+    const tocLinks = document.querySelectorAll('.toc-list a');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    headings.forEach(h => observer.observe(h));
+  </script>
+
+</body>
+</html>

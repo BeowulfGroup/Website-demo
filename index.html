@@ -21,6 +21,9 @@
       --white:   #F2EFE9;
       --grey:    #9A9590;
       --light:   #E8E4DC;
+      --gradient:   radial-gradient(ellipse 80% 60% at 10% 0%, #EDE8DF 0%, transparent 60%),
+                    radial-gradient(ellipse 60% 50% at 90% 100%, #DDD8CF 0%, transparent 55%),
+                    linear-gradient(170deg, #F5F1EA 0%, #EDE9E0 50%, #E4E0D6 100%);
 
       --font-title: 'Reem Kufi', sans-serif;
       --font-display: 'Bebas Neue', sans-serif;
@@ -594,20 +597,6 @@ footer {
   margin-bottom: 0;
 }
 
-@media (max-width: 992px) {
-  .footer-inner {
-    padding: 0 40px;
-    gap: 50px;
-  }
-  .footer__meta-grid {
-    grid-template-columns: 1fr;
-    gap: 35px;
-  }
-  .footer__logo, .footer__nav-col, .footer__meta {
-    text-align: center;
-  }
-}
-
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
@@ -628,8 +617,7 @@ footer {
 <body>
 
   <div class="bg-gradient"></div>
-  <div class="filmstrip">
-  </div>
+  <div class="filmstrip"></div>
 
   <!-- NAV -->
   <nav>
@@ -650,7 +638,7 @@ footer {
         BEOWULF STUDIOS</a>
     <ul class="nav__links">
       <li><a href="unavailable.html">About</a></li>
-      <li><a href="unavailable.html">Projects</a></li>
+      <li><a href="projects.html">Projects</a></li>
       <li><a href="careers.html#roles-section">Careers</a></li>
       <li><a href="careers.html#open-apply">Contact</a></li>
     </ul>
@@ -718,7 +706,7 @@ footer {
     <span class="meta-chip">Short Film</span>
     <span class="meta-chip">In Development</span>
   </div>
-     <a href="unavailable.html" class="hero__project-cta">
+     <a href="rues-ritual.html" class="hero__project-cta">
       Learn More
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -727,6 +715,7 @@ footer {
     </div>
   </div>
 </section>
+
 
 <!--ARTICLE SECTION-->
 <section class="articles__section">
@@ -786,24 +775,20 @@ footer {
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    
-    <!-- Three-Column Section -->
+      <!-- Three-Column Section -->
     <div class="footer__meta-grid">
-      
       <!-- Column 1: Brand Logo -->
-      <a href="#" class="footer__logo">BEOWULF<br>STUDIOS</a>
-      
+      <a href="index.html" class="footer__logo">BEOWULF<br>STUDIOS</a>
       <!-- Column 2: Navigation Links -->
       <nav class="footer__nav-col" aria-label="Footer Navigation">
         <ul class="footer__nav-list">
-          <li><a href="unavailable.html" class="footer__nav-link">Projects</a></li>
+          <li><a href="projects.html" class="footer__nav-link">Projects</a></li>
           <li><a href="unavailable.html" class="footer__nav-link">About</a></li>
           <li><a href="careers.html" class="footer__nav-link">Careers</a></li>
           <li><a href="careers.html#open-apply" class="footer__nav-link">Contact</a></li>
           <li><a href="articles.html" class="footer__nav-link">Articles</a></li>
         </ul>
       </nav>
-      
       <!-- Column 3: Corporate Metadata -->
       <div class="footer__meta">
         <p>© 2026 Beowulf Studios</p>
